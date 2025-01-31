@@ -322,30 +322,30 @@
 
     <div class="container">
         
-        {% for dest in  dests %}
+        {% for product in  products %}
         <div class="items-container">
             <!-- Similar Items -->
             <div class="item-card">
-                <img src="{{baseUrl}}/{{dest.image}}" alt={{dest.title}}>
+                <img src="{{baseUrl}}/{{product.image}}" alt={{product.title}}>
                 <div class="item-info">
-                    <h3>{{dest.title}}</h3>
-                    <p>Category: {{dest.category}}</p>
-                    <p>{{dest.description}}</p>
-                    <p class="price">₹{{dest.price}}</p>
+                    <h3>{{product.title}}</h3>
+                    <p>Category: {{productt.category}}</p>
+                    <p>{{product.description}}</p>
+                    <p class="price">₹{{product.price}}</p>
                    
-                    {% if dest.is_sale %}
+                    {% if product.is_sale %}
                         <p class="sale" style="color: green;">On Sale</p>
                     {% else %}
                         <p class="sale" style="color: red;">Not on Sale</p>
                     {% endif %}
                     
-                    {% if dest.sold%}
+                    {% if product.sold%}
                         <p><b>Sold: {{'Yes'}}</b></p>
                     {% else %}
                         <p><b>Sold: {{'No'}}</b></p>
                     {% endif %}
 
-                    <p>Date of Sale: {{dest.date_of_sale}}</p>
+                    <p>Date of Sale: {{product.date_of_sale}}</p>
                 </div>
             </div>           
         </div>
