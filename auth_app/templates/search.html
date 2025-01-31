@@ -1,0 +1,70 @@
+<!-- product_table.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Table</title>
+    {% load static %}
+    {% static "images" as baseUrl %}
+    <style>
+        /* Internal CSS */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Table</h1>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Image</th>
+            <th>Sold</th>
+            <th>Is on Sale</th>
+            <th>Date of Sale</th>
+        </tr>
+        
+        {% for product in products %}
+        <tr>
+            <td>{{ product.title }}</td>
+            <td>{{ product.price }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.category }}</td>
+            <td><img src="{{baseUrl}}/{{product.image}}" alt="{{ product.title }}" width="100"></td>
+            
+            {% if product.sold %}
+                 <td>{{'Yes'}}</td>
+            {% else %}
+                <td>{{'No'}}</td>
+            {% endif %}
+            
+            {% if product.is_sale %}
+                <td><p style="color: green;">On Sale </p></td>
+            {% else %}
+                <td><p style="color: red;">Not On Sale </p></td>
+            {% endif %}
+            
+            <td>{{ product.date_of_sale }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

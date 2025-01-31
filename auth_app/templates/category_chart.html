@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category-Wise Sales Amount (Monthly)</title>
+    <style>
+        /* Basic styling */
+        .chart-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .download-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .download-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Category-Wise Sales Amount (Monthly)</h1>
+
+    {% if error %}
+        <p>{{ error }}</p>
+    {% else %}
+        <div class="chart-container">
+            <!-- Display the chart as an image -->
+            <img src="{{ graph_url }}" alt="Sales Chart" id="sales-chart">
+            
+            <!-- Download button -->
+            <a href="{{ graph_url }}" download="category_sales_chart.png" class="download-btn">Download Chart</a>
+        </div>
+    {% endif %}
+
+</body>
+</html>

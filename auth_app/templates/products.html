@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Filters</title>
+    {% load static %}
+    {% static "images" as baseUrl %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 700px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #343a40;
+        }
+
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 8px;
+        }
+
+        .filter-container label {
+            font-weight: bold;
+        }
+
+        .filter-container select, 
+        .filter-container input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            .filter-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+        /* Internal CSS */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .filter-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .product {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Filter Products</h1>
+
+        <form method="GET" id="filter-form" action="{% url 'filter_products' %}">
+            <div class="filter-container">
+                <label for="category">Category:</label>
+                <select name="category" id="category">
+                    <option value="">All</option>
+                    {% for cat in categories %}
+                        <option value="{{ cat }}">{{ cat }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="sold">Sold:</label>
+                <select name="sold" id="sold">
+                    <option value="">All</option>
+                    <option value="true">Sold</option>
+                    <option value="false">Available</option>
+                </select>
+
+                <label for="min_price">Price Range:</label>
+                <input type="number" name="min_price" id="min_price" placeholder="Min Price">
+                <input type="number" name="max_price" id="max_price" placeholder="Max Price">
+
+                <button type="submit">Apply Filters</button>
+            </div>
+        </form>
+    </div>
+
+    <h2>All Product List</h2>
+
+    {% comment %} <div id="product-list">
+        {% for product in products %}
+            <div class="product">
+                <h3>{{ product.title }}</h3>
+                <p>Category: {{ product.category }}</p>
+                <p>Price: ${{ product.price }}</p>
+                <p>Status: {% if product.sold %} Sold {% else %} Available {% endif %}</p>
+            </div>
+        {% empty %}
+            <p>No products found.</p>
+        {% endfor %}
+    </div> {% endcomment %}
+
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Image</th>
+            <th>Sold</th>
+            <th>Is on Sale</th>
+            <th>Date of Sale</th>
+        </tr>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.title }}</td>
+            <td>{{ product.price }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.category }}</td>
+            <td><img src="{{baseUrl}}/{{product.image}}" alt="{{ product.title }}" width="100"></td>
+            
+            {% if product.sold %}
+                 <td>{{'Yes'}}</td>
+            {% else %}
+                <td>{{'No'}}</td>
+            {% endif %}
+            
+            {% if product.is_sale %}
+                <td><p style="color: green;">On Sale </p></td>
+            {% else %}
+                <td><p style="color: red;">Not On Sale </p></td>
+            {% endif %}
+            
+            <td>{{ product.date_of_sale }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>

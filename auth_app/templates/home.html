@@ -1,11 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-commerce Home</title>
-    {% load static %}
+    
     {% static "images" as baseUrl%}
+    
     <style>
         /* General Reset */
         * {
@@ -125,55 +127,31 @@
             font-size: 1rem;
         }
 
-        .container2 {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
+        .filter-form {
             margin-bottom: 20px;
-        }
-        form {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-bottom: 20px;
         }
-        form input, form select, form button {
+        .filter-form select, 
+        .filter-form input {
             padding: 8px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 4px;
         }
-        form button {
-            background-color: #007BFF;
+        .filter-form button {
+            padding: 8px 15px;
+            background-color: #007bff;
             color: white;
+            border: none;
+            border-radius: 4px;
             cursor: pointer;
         }
-        form button:hover {
+        .filter-form button:hover {
             background-color: #0056b3;
-        }
-        .product {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            padding: 10px;
-            display: flex;
-            gap: 10px;
-        }
-        .product img {
-            max-width: 100px;
-            max-height: 100px;
-            border-radius: 5px;
-        }
-        .product-info {
-            flex: 1;
-        }
-        .product-info h3 {
-            margin: 0;
-        }
-        .product-info p {
-            margin: 5px 0;
         }
 
         .products {
@@ -212,12 +190,26 @@
             font-weight: bold;
         }
 
-        .footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            position: relative;
+        .social-icons {
+            margin-top: 10px;
+        }
+
+        .social-icons a {
+            margin: 0 15px;
+            display: inline-block;
+            
+        }
+
+        .social-icons img {
+            width: 30px;
+            height: 30px;
+            transition: transform 0.3s ease;
+            justify-content: center; 
+            align-items: center;
+        }
+
+        .social-icons a:hover img {
+            transform: scale(1.1); /* Slightly enlarge the icon on hover */
         }
 
         .container {
@@ -285,96 +277,56 @@
 </head>
 <body>
     <header>
-        <div class="logo">Crate & Barrel</div>
-        <div class="search-bar">
-            <form method="GET" action="{% url 'search' %}">
-                <input type="text" name="query" placeholder="Search...">
-                
-            </form>
+        <div class="logo">My Ecom</div>
+            <div class="search-bar">
             
+            <form method="GET" action="/search">
+                <input type="text" name='q' id ='q' placeholder="Search...">
+               
+            </div>
             
-            
-        </div>
-        <div class="icons">
-            <div><button type="submit" style="
-                background-color: #007bff;
-                color: #fff;
-                padding: 10px 20px;
-                font-size: 16px;
-                font-weight: bold;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                transition: background-color 0.3s ease, transform 0.2s ease;
-              " 
-              onmouseover="this.style.backgroundColor='#0056b3'; this.style.transform='scale(1.05)';" 
-              onmouseout="this.style.backgroundColor='#007bff'; this.style.transform='scale(1)';">
-                Search
+                <div><button type="submit" style="
+                    background-color: #007bff;
+                    color: #fff;
+                    padding: 10px 20px;
+                    font-size: 16px;
+                    font-weight: bold;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    transition: background-color 0.3s ease, transform 0.2s ease;
+                    " 
+                    onmouseover="this.style.backgroundColor='#0056b3'; this.style.transform='scale(1.05)';" 
+                    onmouseout="this.style.backgroundColor='#007bff'; this.style.transform='scale(1)';">
+                    Search
               </button>
               </div>
-            <div></div>
-        </div>
+           
+        </form>
     </header>
 
     <nav>
-        <a href="#">Furniture</a>
-        <a href="#">Outdoor</a>
-        <a href="#">Tabletop & Bar</a>
-        <a href="#">Kitchen</a>
-        <a href="#">Rugs</a>
-        <a href="#">Lighting</a>
-        <a href="#">Bedding & Bath</a>
-        <a href="#">Sale</a>
+        <a href="{% url 'product_table' %}">Product Table</a>
+        <a href="{% url 'sales_chart' %}">Sales Graph</a>
+        <a href="{% url 'total_items_chart' %}">Product Graph</a>
+        
     </nav>
 
-    <div class="container2">
-        <h1>Filter Products</h1>
+    
 
-        <!-- Filter Form -->
-        <form method="GET">
-            <select name="category">
-                <option value="">All Categories</option>
-                <option value="Furniture">Furniture</option>
-                <option value="Kitchen">Kitchen</option>
-                <option value="Accessories">Accessories</option>
-                <option value="Electronics">Electronics</option>
-                <option value="Fitness">Fitness</option>
-                <option value="Clothing">Clothing</option>
-            </select>
-            <input type="number" name="min_price" placeholder="Min Price" step="0.01">
-            <input type="number" name="max_price" placeholder="Max Price" step="0.01">
-            <label>
-                <input type="checkbox" name="on_sale" value="true"> On Sale
-            </label>
-            <button type="submit">Apply Filters</button>
-        </form>
+    <form method="get" action="{% url 'filter_products' %}" class="filter-form">
+        {{ form.as_p }}
+       <center> <button type="submit">Apply Filters</button></center>
+    </form>
 
-        <!-- Product List -->
-        {% for product in products %}
-        <div class="product">
-            <img src="{{ product.image }}" alt="{{ product.title }}">
-            <div class="product-info">
-                <h3>{{ product.title }}</h3>
-                <p>{{ product.description }}</p>
-                <p><strong>Category:</strong> {{ product.category }}</p>
-                <p><strong>Price:</strong> ${{ product.price }}</p>
-                {% if product.is_sale %}
-                <p style="color: green;"><strong>On Sale!</strong></p>
-                {% endif %}
-            </div>
-        </div>
-        {% empty %}
-        <p>No products match the selected filters.</p>
-        {% endfor %}
-    </div>
     <div class="container">
         
         {% for dest in  dests %}
         <div class="items-container">
             <!-- Similar Items -->
             <div class="item-card">
-                <img src="{{baseUrl}}/{{dest.image}}" alt="Wireless Headphones">
+                <img src="{{baseUrl}}/{{dest.image}}" alt={{dest.title}}>
                 <div class="item-info">
                     <h3>{{dest.title}}</h3>
                     <p>Category: {{dest.category}}</p>
@@ -403,7 +355,26 @@
 
     
     <footer class="footer">
-        <p>&copy; Tuleshwar Kumar Sahu.</p>
+        <center><br>
+        <div class="social-icons">
+            <!-- GitHub Image Icon -->
+            <a href="https://github.com/tuleshwarsahu" target="_blank" title="GitHub">
+                <img src="{% static 'images/github.png' %}" alt="GitHub">
+            </a>
+            <!-- Instagram Image Icon -->
+            <a href="https://www.instagram.com/tulesh_warsahu/" target="_blank" title="Instagram">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg" alt="Instagram">
+            </a>
+            <!-- LinkedIn Image Icon -->
+            <a href="https://www.linkedin.com/in/tuleshwar-sahu-2588b8317/" target="_blank" title="LinkedIn">
+                <img src="{% static 'images/linkedin.png' %}" alt="LinkedIn">
+            </a>
+            <p>follows on</p>
+        </div>
+    </center>
     </footer>
+
+    <!-- Add FontAwesome CDN for the icons -->
+    <script src="{% static 'https://kit.fontawesome.com/a076d05399.js' %}"></script>
 </body>
 </html>
